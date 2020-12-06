@@ -10,10 +10,7 @@ class Main extends Component {
     render() {
         return (
             <ScrollView>
-                <Text>Main</Text>
-                <WarmUp/>
-                <Match/>
-                <TheLab/>
+                <TheLab />
             </ScrollView>
         );
     }

@@ -49,7 +49,7 @@ class WarmUp extends Component {
                     style={{ height: 100, borderColor: 'gray', borderWidth: 1 }}
                     />
                     <Button
-                        title='Set Goal'
+                        title='Save Goal'
                     />
                     <Text style={styles.headerText}>Previous Goals</Text>
                     <FlatList

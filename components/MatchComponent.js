@@ -1,52 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TextInput, Button, ListView, FlatList, Picker } from 'react-native';
-
-const GAMES = [
-    {
-        id: 1,
-        title: 'Street Fighter V',
-        game: 'Guilty Gear STRIVE',
-        characters: ['Ryu','Ken','Akuma']
-
-    },
-    {
-        id: 2,
-        title: 'Guilty Gear STRIVE',
-        game: 'Guilty Gear STRIVE',
-        characters: ['Sol','Ky','Faust']
-    },
-    {
-        id: 3,
-        title: 'Dragonball Fighter Z',
-        game: 'Guilty Gear STRIVE',
-        characters: ['Goku','Vegeta','Gohan']
-    },
-];
-
-let MATCHUPNOTES = [
-    {
-        id:1,
-        title: 'Stand outside Ky slash range to threaten',
-        player: 'Sol',
-        opponent: 'Ky',
-        game: 'Guilty Gear STRIVE'
-    },
-    {
-        id:2,
-        title: 'AA with 5K',
-        player: 'Sol',
-        opponent: 'Ky',
-        game: 'Guilty Gear STRIVE'
-    },
-    {
-        id:3,
-        title: 'Run at Ky after he wiffs S or HS',
-        player: 'Sol',
-        opponent: 'Ky',
-        game: 'Guilty Gear STRIVE'
-    }
-
-];
+import MATCHUPNOTES from '../shared/matchupNotes';
+import GAMES from '../shared/games';
 
 const Item = ({ title }) => (
     <View>
@@ -59,6 +14,10 @@ const renderItem = ({ item }) => (
   );
 
 class Match extends Component {
+
+    static navigationOptions = {
+        title: 'Match'
+    }
 
     render() {
         return (

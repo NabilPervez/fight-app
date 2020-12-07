@@ -1,41 +1,34 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TextInput, Button, ListView, FlatList } from 'react-native';
+import {MATCHUPNOTES} from '../shared/matchupNotes';
+import {GAMES} from '../shared/games';
+import {GOALS} from '../shared/goals';
 
-let GOALS = [
-    {
-        id: 1,
-        title: 'Anti Air Consistently'
-
-    },
-    {
-        id: 2,
-        title: '3 Hit Combo Every Opening'
-
-    },
-    {
-        id: 3,
-        title: 'Do NOT Wake Up Super'
-
-    },
-];
-
-const Item = ({ title }) => (
+const Item = ({ title }) => 
+    (
     <View>
       <Text>{title}</Text>
     </View>
-  );
-
-const renderItem = ({ item }) => (
-    <Item title={item.title} />
-  );
+    );
+  
+const renderItem = ({ item }) => 
+    (
+        <Item title={item.title} />
+    );
 
 class WarmUp extends Component {
 
+    static navigationOptions = {
+        title: 'WarmUp'
+    }
+
     constructor() {
         super();
-
         this.state = {
-        }
+            matchupnotes: MATCHUPNOTES,
+            games: GAMES,
+            goals: GOALS
+        };
 
       }
 
@@ -53,7 +46,7 @@ class WarmUp extends Component {
                     />
                     <Text style={styles.headerText}>Previous Goals</Text>
                     <FlatList
-                        data={GOALS}
+                        data={this.state.goals}
                         renderItem={renderItem}
                         keyExtractor={item => item.id}
                     />

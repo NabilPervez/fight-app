@@ -8,28 +8,51 @@ import Match from './MatchComponent';
 import TheLab from './TheLabComponent';
 import WarmUp from './WarmUpComponent';
 
-const MatchNavigator = createStackNavigator(
+const DirectoryNavigator = createDrawerNavigator(
     {
-        Match: { screen: Match }
-    },
+        WarmUp: {
+            screen: WarmUpNavigator,
+            navigationOptions: {
+                drawerIcon: ({tintColor}) => (
+                    <Icon
+                        name='home'
+                        type='font-awesome'
+                        size={24}
+                        color={tintColor}
+                    />
+                )
+            }
+        },
+    }, 
     {
-        defaultNavigationOptions: ({navigation}) => ({
-            headerStyle: {
-                backgroundColor: '#5637DD'
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-                color: '#fff'
-            },
-            headerLeft: <Icon
-                name='address-card'
-                type='font-awesome'
-                iconStyle={styles.stackIcon}
-                onPress={() => navigation.toggleDrawer()}
-            />
-        })
+
+        drawerBackgroundColor: '#CEC8FF',
+        contentComponent: CustomDrawerContentComponent
     }
 );
+
+const CustomDrawerContentComponent = props => (
+    <ScrollView>
+        <SafeAreaView
+            style={styles.container}
+            forceInset={{top: 'always', horizontal: 'never'}}
+        >
+            <View style={styles.drawerHeader}>
+                <View styles={{flex:1}}>
+                    <Image
+                        source={require('./images/logo.png')}
+                        style={styles.drawerImage}
+                    />
+                </View>
+                <View styles={{flex:2}}>
+                    <Text style={styles.drawerHeaderText}>NuCamp</Text>
+                </View>
+            </View>
+            <DrawerItems {...props} />
+        </SafeAreaView>
+    </ScrollView>
+);
+
 
 const WarmUpNavigator = createStackNavigator(
     {
@@ -44,8 +67,9 @@ const WarmUpNavigator = createStackNavigator(
             headerTitleStyle: {
                 color: '#fff'
             },
-            headerLeft: <Icon
-                name='address-card'
+            headerLeft: 
+            <Icon
+                name='heart'
                 type='font-awesome'
                 iconStyle={styles.stackIcon}
                 onPress={() => navigation.toggleDrawer()}
@@ -54,119 +78,23 @@ const WarmUpNavigator = createStackNavigator(
     }
 );
 
-const TheLabNavigator = createStackNavigator(
-    {
-        TheLab: { screen: TheLab }
-    },
-    {
-        defaultNavigationOptions: ({navigation}) => ({
-            headerStyle: {
-                backgroundColor: '#5637DD'
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-                color: '#fff'
-            },
-            headerLeft: <Icon
-                name='address-card'
-                type='font-awesome'
-                iconStyle={styles.stackIcon}
-                onPress={() => navigation.toggleDrawer()}
-            />
-        })
-    }
-);
-
-const MainNavigator = createDrawerNavigator(
-    {
-        WarmUp: {
-            screen: WarmUpNavigator,
-            navigationOptions: {
-                drawerLabel: 'Warm Up',
-                drawerIcon: ({tintColor}) => (
-                    <Icon
-                        name='home'
-                        type='font-awesome'
-                        size={24}
-                        color={tintColor}
-                    />
-                )
-            }
-        },
-        Match: {
-            screen: MatchNavigator,
-            navigationOptions: {
-                drawerLabel: 'Match',
-                drawerIcon: ({tintColor}) => (
-                    <Icon
-                        name='list'
-                        type='font-awesome'
-                        size={24}
-                        color={tintColor}
-                    />
-                )
-            }
-        },
-        TheLab: {
-            screen: TheLabNavigator,
-            navigationOptions: {
-                drawerLabel: 'The Lab',
-                drawerIcon: ({tintColor}) => (
-                    <Icon
-                        name='tree'
-                        type='font-awesome'
-                        size={24}
-                        color={tintColor}
-                    />
-                )
-            }
-        }
-    },
-    {
-        drawerBackgroundColor: '#CEC8FF',
-    }
-);
-
-const AppNavigator = createAppContainer(MainNavigator)
+const AppNavigator = createAppContainer(DirectoryNavigator);
 
 class Main extends Component {
-
     render() {
         return (
-            <View>
-                <AppNavigator/>
+            <View
+                style={{
+                    flex: 1,
+                    paddingTop: Platform.OS === 'ios' ? 0 : Expo.Constants.statusBarHeight
+            }}>
+                <AppNavigator />
+                <WarmUp/>
             </View>
         );
     }
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    drawerHeader: {
-        backgroundColor: '#5637DD',
-        height: 140,
-        alignItems: 'center',
-        justifyContent: 'center',
-        flex: 1,
-        flexDirection: 'row'
-    },
-    drawerHeaderText: {
-        color: '#fff',
-        fontSize: 24,
-        fontWeight: 'bold'
-    },
-    drawerImage: {
-        margin: 10,
-        height: 60,
-        width: 60
-    },
-    stackIcon: {
-        marginLeft: 10,
-        color: '#fff',
-        fontSize: 24
-    }
-});
+
 
 export default Main;

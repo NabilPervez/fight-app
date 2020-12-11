@@ -1,42 +1,16 @@
 import React, { Component, useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, ListView, FlatList, Picker,} from 'react-native';
-// import MATCHUPNOTES from '../shared/matchupNotes';
+import { StyleSheet, Text, View, TextInput, ListView, FlatList, Picker,} from 'react-native';
+import { Input, CheckBox, Button, Icon } from 'react-native-elements';
+import MATCHUPNOTES from '../shared/matchupNotes';
 import GAMES from '../shared/games';
-
-let MATCHUPNOTES = [
-    {
-        id:1,
-        title: 'Threaten with fireball pressure',
-        player: 'Ryu',
-        opponent: 'Ken',
-        game: 'Street Fighter V'
-    },
-    {
-        id:2,
-        title: 'AA with cr.HP',
-        player: 'Ryu',
-        opponent: 'Ken',
-        game: 'Street Fighter V'
-    },
-    {
-        id:3,
-        title: 'Buffer ',
-        player: 'Ryu',
-        opponent: 'Ken',
-        game: 'Street Fighter V'
-    }
-
-];
 
 // displays matchupnotes
 function RenderComments({comments}) {
     const renderCommentItem = ({item}) => {
         return (
-            
                 <Text style={{fontSize: 14}}>
                     {item.title}
                 </Text>
-            
         );
     };
 
@@ -58,7 +32,7 @@ class Match extends Component {
     }
 
     //set base values
-    state = {game:'', character:'', opponent:''}
+    state = {game:'', character:'', opponent:'',note:''}
 
     // update values based on user selection
     updateGame = (game) => {
@@ -174,12 +148,15 @@ class Match extends Component {
                 {/* Matchup Note */}
                 <Text style={styles.headerText}>Matchup Note</Text>
                 <TextInput
-                style={{ height: 100, borderColor: 'gray', borderWidth: 1 }}
+                style={{ height: 50, borderColor: 'gray', borderWidth: 1 }}
+                onChangeText={(note) => this.setState({note})}
+                value={this.state.note}
                 />
                 {/* Previous Notes */}
                 <Text style={styles.headerText}>Previous Notes</Text>
                 {/* Method to display previous notes */}
                 <RenderComments comments={MATCHUPNOTES}/>
+                <Text>{this.state.note}</Text>
             </View>
             
         );

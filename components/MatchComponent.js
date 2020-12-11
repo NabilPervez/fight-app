@@ -1,17 +1,55 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, ListView, FlatList, Picker } from 'react-native';
-import MATCHUPNOTES from '../shared/matchupNotes';
+import React, { Component, useState } from 'react';
+import { StyleSheet, Text, View, TextInput, Button, ListView, FlatList, Picker,} from 'react-native';
+// import MATCHUPNOTES from '../shared/matchupNotes';
 import GAMES from '../shared/games';
 
-const Item = ({ title }) => (
-    <View>
-      <Text>{title}</Text>
-    </View>
-  );
+let MATCHUPNOTES = [
+    {
+        id:1,
+        title: 'Threaten with fireball pressure',
+        player: 'Ryu',
+        opponent: 'Ken',
+        game: 'Street Fighter V'
+    },
+    {
+        id:2,
+        title: 'AA with cr.HP',
+        player: 'Ryu',
+        opponent: 'Ken',
+        game: 'Street Fighter V'
+    },
+    {
+        id:3,
+        title: 'Buffer ',
+        player: 'Ryu',
+        opponent: 'Ken',
+        game: 'Street Fighter V'
+    }
 
-const renderItem = ({ item }) => (
-    <Item title={item.title} />
-  );
+];
+
+// displays matchupnotes
+function RenderComments({comments}) {
+    const renderCommentItem = ({item}) => {
+        return (
+            
+                <Text style={{fontSize: 14}}>
+                    {item.title}
+                </Text>
+            
+        );
+    };
+
+    return (
+        <View>
+            <FlatList
+                data={comments}
+                renderItem={renderCommentItem}
+                keyExtractor={item => item.id.toString()}
+            />
+        </View>
+    );
+}
 
 class Match extends Component {
 
@@ -19,50 +57,87 @@ class Match extends Component {
         title: 'Match'
     }
 
+    //set base values
+    state = {game:'', character:'', opponent:''}
+
+    // update values based on user selection
+    updateGame = (game) => {
+        this.setState({ game: game })
+    }
+
+    updateCharacter = (character) => {
+        this.setState({ character: character })
+    }
+
+     updateOpponent = (opponent) => {
+        this.setState({ opponent: opponent })
+    }
+
+    // switch state to be used to show which character / opponent picker will display based on game selected
+    renderSwitch(game) {
+        switch(game) {
+          case 'Street Fighter V':
+            return <Text>SFV</Text>;
+        case 'Guilty Gear STRIVE':
+            return <Text>GG</Text>;
+        case 'Dragonball Fighter Z':
+            return <Text>DBFZ</Text>;
+          default:
+            return <Text>SWITCH ERROR</Text>;
+        }
+    }
+    
     render() {
         return (
             <View>
                 <Text style={styles.titleText}>Match</Text>
                 {/* Drop down for games */}
                 <Text style={styles.headerText}>Game</Text>
-                <Picker>
-                    <Picker.item label='PICK YOUR GAME' value='0'/>
-                    <Picker.item label='Street Fighter V' value='1'/>
-                    <Picker.item label='Guilty Gear STRIVE' value='2'/>
-                    <Picker.item label='Dragonball Fighter Z' value='3'/>                    
+                <Picker
+                    selectedValue = {this.state.game} 
+                    onValueChange = {this.updateGame}
+                    style={styles.pickerBar}
+                >
+                    <Picker.item label='Street Fighter V' value='Street Fighter V'/>
+                    <Picker.item label='Guilty Gear STRIVE' value='Guilty Gear STRIVE'/>
+                    <Picker.item label='Dragonball Fighter Z' value='Dragonball Fighter Z'/>                    
                 </Picker>
                 {/* Drop down for character */}
-                <Text style={styles.headerText}>Character</Text>
-                <Picker>
-                    <Picker.item label='PICK YOUR CHARACTER' value='0'/>
-                    <Picker.item label='Ryu' value='1'/>
-                    <Picker.item label='Ken' value='2'/>
-                    <Picker.item label='Akuma' value='3'/>                    
-                </Picker>
-                {/* Drop down for opponent */}
-                <Text style={styles.headerText}>Opponent</Text>
-                <Picker>
-                    <Picker.item label='PICK YOUR OPPONENT' value='0'/>
-                    <Picker.item label='Ryu' value='1'/>
-                    <Picker.item label='Ken' value='2'/>
-                    <Picker.item label='Akuma' value='3'/>
-                </Picker>
+                
+                    <Text style={styles.headerText}>Character</Text>
+                    <Picker
+                        selectedValue = {this.state.character} 
+                        onValueChange = {this.updateCharacter}
+                        style={styles.pickerBar}
+                    >
+                        <Picker.item label='Ryu' value='Ryu'/>
+                        <Picker.item label='Ken' value='Ken'/>
+                        <Picker.item label='Akuma' value='Akuma'/>                    
+                    </Picker>
+                    {/* Drop down for opponent */}
+                    <Text style={styles.headerText}>Opponent</Text>
+                    <Picker
+                        selectedValue = {this.state.opponent} 
+                        onValueChange = {this.updateOpponent}
+                        style={styles.pickerBar}
+                    >
+                        <Picker.item label='Ryu' value='Ryu'/>
+                        <Picker.item label='Ken' value='Ken'/>
+                        <Picker.item label='Akuma' value='Akuma'/>
+                    </Picker>
                 {/* Matchup Note */}
                 <Text style={styles.headerText}>Matchup Note</Text>
                 <TextInput
                 style={{ height: 100, borderColor: 'gray', borderWidth: 1 }}
                 />
-                <Button
-                    title='Save Note'
-                />
                 {/* Previous Notes */}
                 <Text style={styles.headerText}>Previous Notes</Text>
-                    <FlatList
-                        data={MATCHUPNOTES}
-                        renderItem={renderItem}
-                        keyExtractor={item => item.id}
-                    />
+                {/* Method to display previous notes */}
+                <RenderComments comments={MATCHUPNOTES}/>
+            {/* Render Switch Test */}
+            {this.renderSwitch(this.state.game)}
             </View>
+            
         );
     }
 }
@@ -80,6 +155,10 @@ const styles = StyleSheet.create({
         fontFamily: "Roboto",
         fontSize: 20,
         fontWeight: "bold"
+    },
+    pickerBar:{
+        height: 30, 
+        width: 400
     }
   });
 

@@ -8,14 +8,14 @@ import Match from './MatchComponent';
 import TheLab from './TheLabComponent';
 import WarmUp from './WarmUpComponent';
 
-const DirectoryNavigator = createDrawerNavigator(
+const MainNavigator = createDrawerNavigator(
     {
-        WarmUp: {
-            screen: WarmUpNavigator,
+        Login: {
+            screen: WarmUp,
             navigationOptions: {
                 drawerIcon: ({tintColor}) => (
                     <Icon
-                        name='home'
+                        name='sign-in'
                         type='font-awesome'
                         size={24}
                         color={tintColor}
@@ -23,36 +23,8 @@ const DirectoryNavigator = createDrawerNavigator(
                 )
             }
         },
-    }, 
-    {
-
-        drawerBackgroundColor: '#CEC8FF',
-        contentComponent: CustomDrawerContentComponent
     }
 );
-
-const CustomDrawerContentComponent = props => (
-    <ScrollView>
-        <SafeAreaView
-            style={styles.container}
-            forceInset={{top: 'always', horizontal: 'never'}}
-        >
-            <View style={styles.drawerHeader}>
-                <View styles={{flex:1}}>
-                    <Image
-                        source={require('./images/logo.png')}
-                        style={styles.drawerImage}
-                    />
-                </View>
-                <View styles={{flex:2}}>
-                    <Text style={styles.drawerHeaderText}>NuCamp</Text>
-                </View>
-            </View>
-            <DrawerItems {...props} />
-        </SafeAreaView>
-    </ScrollView>
-);
-
 
 const WarmUpNavigator = createStackNavigator(
     {
@@ -67,34 +39,30 @@ const WarmUpNavigator = createStackNavigator(
             headerTitleStyle: {
                 color: '#fff'
             },
-            headerLeft: 
-            <Icon
-                name='heart'
+            headerLeft: <Icon
+                name='sign-in'
                 type='font-awesome'
-                iconStyle={styles.stackIcon}
                 onPress={() => navigation.toggleDrawer()}
             />
         })
     }
 );
 
-const AppNavigator = createAppContainer(DirectoryNavigator);
+const AppNavigator = createAppContainer(MainNavigator)
 
 class Main extends Component {
-    render() {
-        return (
-            <View
-                style={{
-                    flex: 1,
-                    paddingTop: Platform.OS === 'ios' ? 0 : Expo.Constants.statusBarHeight
+    
+    render(){
+        return(
+            <View style={{
+                flex: 1,
+                paddingTop: Platform.OS === 'ios' ? 0 : Expo.Constants.statusBarHeight
             }}>
-                <AppNavigator />
-                <WarmUp/>
+                <AppNavigator/>
+                <Match/>
             </View>
         );
     }
 }
-
-
 
 export default Main;

@@ -74,16 +74,77 @@ class Match extends Component {
     }
 
     // switch state to be used to show which character / opponent picker will display based on game selected
-    renderSwitch(game) {
+    renderCharacterSwitch(game) {
         switch(game) {
           case 'Street Fighter V':
-            return <Text>SFV</Text>;
+            return <Picker
+            selectedValue = {this.state.character} 
+            onValueChange = {this.updateCharacter}
+            style={styles.pickerBar}
+            >
+            <Picker.item label='Ryu' value='Ryu'/>
+            <Picker.item label='Ken' value='Ken'/>
+            <Picker.item label='Akuma' value='Akuma'/>                    
+            </Picker>;
         case 'Guilty Gear STRIVE':
-            return <Text>GG</Text>;
+            return <Picker
+            selectedValue = {this.state.character} 
+            onValueChange = {this.updateCharacter}
+            style={styles.pickerBar}
+            >
+            <Picker.item label='Sol' value='Sol'/>
+            <Picker.item label='Ky' value='Ky'/>
+            <Picker.item label='Faust' value='Faust'/>                    
+            </Picker>;
         case 'Dragonball Fighter Z':
-            return <Text>DBFZ</Text>;
+            return <Picker
+            selectedValue = {this.state.opponent} 
+            onValueChange = {this.updateOpponent}
+            style={styles.pickerBar}
+            >
+            <Picker.item label='Goku' value='Goku'/>
+            <Picker.item label='Vegeta' value='Vegeta'/>
+            <Picker.item label='Gohan' value='Gohan'/>                    
+            </Picker>;
           default:
-            return <Text>SWITCH ERROR</Text>;
+            return <Text>Select Game First</Text>;
+        }
+    }
+
+    renderOpponentSwitch(game) {
+        switch(game) {
+          case 'Street Fighter V':
+            return <Picker
+            selectedValue = {this.state.character} 
+            onValueChange = {this.updateCharacter}
+            style={styles.pickerBar}
+            >
+            <Picker.item label='Ryu' value='Ryu'/>
+            <Picker.item label='Ken' value='Ken'/>
+            <Picker.item label='Akuma' value='Akuma'/>                    
+            </Picker>;
+        case 'Guilty Gear STRIVE':
+            return <Picker
+            selectedValue = {this.state.character} 
+            onValueChange = {this.updateCharacter}
+            style={styles.pickerBar}
+            >
+            <Picker.item label='Sol' value='Sol'/>
+            <Picker.item label='Ky' value='Ky'/>
+            <Picker.item label='Faust' value='Faust'/>                    
+            </Picker>;
+        case 'Dragonball Fighter Z':
+            return <Picker
+            selectedValue = {this.state.opponent} 
+            onValueChange = {this.updateOpponent}
+            style={styles.pickerBar}
+            >
+            <Picker.item label='Goku' value='Goku'/>
+            <Picker.item label='Vegeta' value='Vegeta'/>
+            <Picker.item label='Gohan' value='Gohan'/>                    
+            </Picker>;
+          default:
+            return <Text>Select Game First</Text>;
         }
     }
     
@@ -103,28 +164,13 @@ class Match extends Component {
                     <Picker.item label='Dragonball Fighter Z' value='Dragonball Fighter Z'/>                    
                 </Picker>
                 {/* Drop down for character */}
-                
                     <Text style={styles.headerText}>Character</Text>
-                    <Picker
-                        selectedValue = {this.state.character} 
-                        onValueChange = {this.updateCharacter}
-                        style={styles.pickerBar}
-                    >
-                        <Picker.item label='Ryu' value='Ryu'/>
-                        <Picker.item label='Ken' value='Ken'/>
-                        <Picker.item label='Akuma' value='Akuma'/>                    
-                    </Picker>
+                    {this.renderCharacterSwitch(this.state.game)}
+
                     {/* Drop down for opponent */}
                     <Text style={styles.headerText}>Opponent</Text>
-                    <Picker
-                        selectedValue = {this.state.opponent} 
-                        onValueChange = {this.updateOpponent}
-                        style={styles.pickerBar}
-                    >
-                        <Picker.item label='Ryu' value='Ryu'/>
-                        <Picker.item label='Ken' value='Ken'/>
-                        <Picker.item label='Akuma' value='Akuma'/>
-                    </Picker>
+                    {this.renderOpponentSwitch(this.state.game)}
+                
                 {/* Matchup Note */}
                 <Text style={styles.headerText}>Matchup Note</Text>
                 <TextInput
@@ -134,8 +180,6 @@ class Match extends Component {
                 <Text style={styles.headerText}>Previous Notes</Text>
                 {/* Method to display previous notes */}
                 <RenderComments comments={MATCHUPNOTES}/>
-            {/* Render Switch Test */}
-            {this.renderSwitch(this.state.game)}
             </View>
             
         );
